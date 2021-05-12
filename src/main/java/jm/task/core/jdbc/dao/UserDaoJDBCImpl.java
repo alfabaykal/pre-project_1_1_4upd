@@ -28,7 +28,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     "WHERE id = ?;";
 
     public static final String getAllUsersPlease = "SELECT * FROM users;";
-    public static final String cleanUsersTablePlease = "TRUNCATE TABLE users;";
+    public static final String cleanUsersTablePlease = "DELETE FROM users;";
 
     public UserDaoJDBCImpl() {
 
@@ -38,7 +38,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(createUsersTablePlease);
-            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,7 +47,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(dropUsersTablePlease);
-            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +69,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection connection = Util.getConnection();
              PreparedStatement statement = connection.prepareStatement(removeUserByIdPlease)) {
             statement.setLong(1, id);
-            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
