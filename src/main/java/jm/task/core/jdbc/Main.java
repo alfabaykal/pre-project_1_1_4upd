@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
         List<User> userList = new ArrayList<>();
         userList.add(new User("Vas'a", "Pupkin", (byte) 20));
         userList.add(new User("John", "Appleseed", (byte) 50));
@@ -33,6 +34,5 @@ public class Main {
 
         service.cleanUsersTable();
         service.dropUsersTable();
-
     }
 }
