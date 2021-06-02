@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
     SessionFactory factory = Util.getSessionFactory();
+    Transaction transaction = null;
 
     public UserDaoHibernateImpl() {
 
@@ -19,6 +20,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
+            transaction = session.getTransaction();
             session.createSQLQuery(
                     "CREATE TABLE IF NOT EXISTS users\n" +
                             "(id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,\n" +
@@ -27,9 +29,11 @@ public class UserDaoHibernateImpl implements UserDao {
                             "age TINYINT NOT NULL)\n" +
                             "CHARSET = utf8;")
                     .executeUpdate();
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         } finally {
             if (session != null) {
