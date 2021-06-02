@@ -7,8 +7,7 @@ import org.hibernate.*;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    SessionFactory factory = Util.getSessionFactory();
-    Transaction transaction = null;
+    SessionFactory factory;
 
     public UserDaoHibernateImpl() {
 
@@ -17,10 +16,10 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
+        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
-            transaction = session.getTransaction();
             session.createSQLQuery(
                     "CREATE TABLE IF NOT EXISTS users\n" +
                             "(id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,\n" +
@@ -29,14 +28,13 @@ public class UserDaoHibernateImpl implements UserDao {
                             "age TINYINT NOT NULL)\n" +
                             "CHARSET = utf8;")
                     .executeUpdate();
-            transaction.commit();
+            session.getTransaction().commit();
         } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            session.getTransaction().rollback();
+            e.printStackTrace();
             e.printStackTrace();
         } finally {
-            if (session != null) {
+            if (session != null && session.isOpen()) {
                 try {
                     session.close();
                 } catch (HibernateException e) {
@@ -48,6 +46,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
+        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -58,7 +57,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            if (session != null) {
+            if (session != null && session.isOpen()) {
                 try {
                     session.close();
                 } catch (HibernateException e) {
@@ -71,6 +70,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         User user = new User(name, lastName, age);
+        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -80,7 +80,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            if (session != null) {
+            if (session != null && session.isOpen()) {
                 try {
                     session.close();
                 } catch (HibernateException e) {
@@ -92,6 +92,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
+        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -102,7 +103,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            if (session != null) {
+            if (session != null && session.isOpen()) {
                 try {
                     session.close();
                 } catch (HibernateException e) {
@@ -114,6 +115,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
+        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         List<User> users = null;
         try {
@@ -125,7 +127,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
-            if (session != null) {
+            if (session != null && session.isOpen()) {
                 try {
                     session.close();
                 } catch (HibernateException e) {
@@ -139,6 +141,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
+        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -149,7 +152,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            if (session != null) {
+            if (session != null && session.isOpen()) {
                 try {
                     session.close();
                 } catch (HibernateException e) {
