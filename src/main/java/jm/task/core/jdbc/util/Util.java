@@ -7,7 +7,6 @@ import java.util.Properties;
 
 
 import jm.task.core.jdbc.model.User;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -16,10 +15,27 @@ import org.hibernate.service.ServiceRegistry;
 
 public class Util {
 
+    private static volatile Util util;
+
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/test?serverTimezone=Europe/Moscow";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
+
+    private Util(){}
+
+    public static Util getUtil() {
+        Util localUtil = util;
+        if (localUtil == null) {
+            synchronized (Util.class) {
+                localUtil = util;
+                if (localUtil == null) {
+                    util = localUtil = new Util();
+                }
+            }
+        }
+        return util;
+    }
 
     //Hibernate
     private static SessionFactory sessionFactory;
