@@ -7,7 +7,7 @@ import org.hibernate.*;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    SessionFactory factory;
+    private final SessionFactory factory = Util.getSessionFactory();
 
     public UserDaoHibernateImpl() {
 
@@ -16,7 +16,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -35,18 +34,13 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                try {
-                    session.close();
-                } catch (HibernateException e) {
-                    e.printStackTrace();
-                }
+                session.close();
             }
         }
     }
 
     @Override
     public void dropUsersTable() {
-        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -58,11 +52,7 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                try {
-                    session.close();
-                } catch (HibernateException e) {
-                    e.printStackTrace();
-                }
+                session.close();
             }
         }
     }
@@ -70,7 +60,6 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         User user = new User(name, lastName, age);
-        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -81,18 +70,13 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                try {
-                    session.close();
-                } catch (HibernateException e) {
-                    e.printStackTrace();
-                }
+                session.close();
             }
         }
     }
 
     @Override
     public void removeUserById(long id) {
-        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -104,18 +88,13 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                try {
-                    session.close();
-                } catch (HibernateException e) {
-                    e.printStackTrace();
-                }
+                session.close();
             }
         }
     }
 
     @Override
     public List<User> getAllUsers() {
-        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         List<User> users = null;
         try {
@@ -128,11 +107,7 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                try {
-                    session.close();
-                } catch (HibernateException e) {
-                    e.printStackTrace();
-                }
+                session.close();
             }
         }
 
@@ -141,7 +116,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        factory = Util.getSessionFactory();
         Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -153,11 +127,7 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                try {
-                    session.close();
-                } catch (HibernateException e) {
-                    e.printStackTrace();
-                }
+                session.close();
             }
         }
     }
