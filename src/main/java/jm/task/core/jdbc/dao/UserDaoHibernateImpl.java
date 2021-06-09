@@ -33,7 +33,11 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                session.close();
+                try {
+                    session.close();
+                } catch (Exception e) {
+
+                }
             }
         }
     }
@@ -51,7 +55,11 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                session.close();
+                try {
+                    session.close();
+                } catch (Exception e) {
+
+                }
             }
         }
     }
@@ -69,7 +77,11 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                session.close();
+                try {
+                    session.close();
+                } catch (Exception e) {
+
+                }
             }
         }
     }
@@ -87,7 +99,11 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                session.close();
+                try {
+                    session.close();
+                } catch (Exception e) {
+
+                }
             }
         }
     }
@@ -106,7 +122,11 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                session.close();
+                try {
+                    session.close();
+                } catch (Exception e) {
+
+                }
             }
         }
 
@@ -126,7 +146,11 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
-                session.close();
+                try {
+                    session.close();
+                } catch (Exception e) {
+
+                }
             }
         }
     }
