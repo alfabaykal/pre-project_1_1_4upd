@@ -31,7 +31,6 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             e.printStackTrace();
-            e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
