@@ -14,31 +14,25 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 public class Util {
+    private static SessionFactory sessionFactory;
 
-    private static volatile Util util;
+    private static Util INSTANCE;
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/test?serverTimezone=Europe/Moscow";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    private Util(){}
+    private Util() {}
 
-    public static Util getUtil() {
-        Util localUtil = util;
-        if (localUtil == null) {
-            synchronized (Util.class) {
-                localUtil = util;
-                if (localUtil == null) {
-                    util = localUtil = new Util();
-                }
-            }
+    public static Util getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Util();
         }
-        return util;
+        return INSTANCE;
     }
 
     //Hibernate
-    private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
