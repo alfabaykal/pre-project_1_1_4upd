@@ -16,7 +16,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try {
             session.beginTransaction();
             session.createSQLQuery(
@@ -44,7 +44,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try {
             session.beginTransaction();
             session.createSQLQuery("DROP TABLE IF EXISTS users;")
@@ -67,7 +67,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         User user = new User(name, lastName, age);
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try {
             session.beginTransaction();
             session.save(user);
@@ -88,7 +88,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try {
             session.beginTransaction();
             Object user = session.get(User.class, id);
@@ -110,14 +110,13 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         List<User> users = null;
         try {
             session.beginTransaction();
             String sql = "SELECT * FROM users";
             Query query = session.createSQLQuery(sql).addEntity(User.class);
             users = query.list();
-            session.close();
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -135,7 +134,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try {
             session.beginTransaction();
             session.createSQLQuery("TRUNCATE TABLE users;")
